@@ -2,18 +2,21 @@
 
 ###############################################################################
 #
-# Prints "Holberton School" 10 times escaping the 9th
+# Randomness and luck in the Chineese culture
 #
 ###############################################################################
 
 i=1
 while [ $i -le 10 ]
 do
-    if [ $i -ne 9 ]
+    if [ $i -eq 4 ]
     then
-        echo "Holberton School"
+        echo "bad luck"
+    elif [ $i -eq 8 ]
+    then
+        echo "good luck"
     else
-        echo "Hi"
+        echo "Holberton School"
     fi
     (( i++ ))
 done
