@@ -2,13 +2,18 @@
 
 ###############################################################################
 #
-# Prints "Holberton School" 10 times
+# Prints "Holberton School" 10 times escaping the 9th
 #
 ###############################################################################
 
 i=0
 while [ $i -lt 10 ]
 do
-    echo "Holberton School"
+    if [ $i -ne 8 ]
+    then
+        echo "Holberton School"
+    else
+        echo "Hi"
+    fi
     (( i++ ))
 done
