@@ -1,5 +1,6 @@
 #include <stdlib.h>
 #include <stdio.h>
+#include <unistd.h>
 
 /**
  * infinite_while - runs an infinite loop
@@ -23,17 +24,14 @@ int infinite_while(void)
 int main(void)
 {
 	short i;
+	pid_t child;
 
 	for (i = 0; i < 5; i++)
 	{
-		if (fork() != 0)
-		{
-			printf("Zombie process created, PID: %d\n", getpid());
-		}
-		else
-		{
-			return (0);
-		}
+		child = fork();
+		if (!child)
+			exit(0);
+		printf("Zombie process created, PID: %d\n", getpid());
 	}
 	infinite_while();
 	return (0);
