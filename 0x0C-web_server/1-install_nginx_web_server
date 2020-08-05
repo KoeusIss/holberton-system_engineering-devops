@@ -2,13 +2,12 @@
 # Creates an nginx web sever
 apt-get update
 apt-get install -y nginx
-mkdir /var/www/html/koeusiss/html
-chown -R "$USER":"$USER" /var/www/koeusiss/html
-chmod -R 755 /var/www
 
-echo "Holberton School" > /var/www/koeusiss/html/index.html
+sudo mkdir -p /var/www/html/koeusiss/html
 
-printf %s "server {
+sudo echo "Holberton School" > /var/www/koeusiss/html/index.html
+
+sudo echo "server {
     listen 80 default_server;
     listen [::]:80 default_server;
 
@@ -18,6 +17,7 @@ printf %s "server {
     index  index.html index.htm;
 }" > /etc/nginx/sites-available/koeusiss.tech
 
+sudo rm /etc/nginx/sites-enabled/*
 sudo ln -s /etc/nginx/sites-available/koeusiss.tech /etc/nginx/sites-enabled/
 
-service nginx restart
+sudo service nginx restart
