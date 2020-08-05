@@ -2,8 +2,22 @@
 # Creates an nginx web sever
 sudo apt-get update
 sudo apt-get -y install nginx
-sudo ufw allow 'Nginx HTTP'
-sudo chown -R "$USER":"$USER" /var/www/html/index.nginx-debian.html
+sudo mkdir -p /var/www/html/koeusiss/html
+sudo chown -R "$USER":"$USER" /var/www/koeusiss/html
 sudo chmod -R 755 /var/www 
-sudo echo "Holberton School" > /var/www/html/index.nginx-debian.html
+
+sudo echo "Holberton School" > /var/www/koeusiss/html/index.html
+
+sudo echo "server {
+    listen 80;
+    listen [::]:80 default_server;
+
+    server_name koeusiss.tech www.kouesiss.tech;
+
+    root   /etc/nginx/koeusiss/html;
+    index  index.html index.htm;
+}" > /etc/nginx/sites-available/koeusiss.tech
+
+sudo ln -s /etc/nginx/sites-available/koeusiss.tech /etc/nginx/sites-enabled/
+
 sudo service nginx restart
