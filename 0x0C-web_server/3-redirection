@@ -2,12 +2,9 @@
 # Creates an nginx web sever
 apt-get update
 apt-get install -y nginx
-ufw allow 'Nginx HTTP'
-mkdir -p /var/www/koeusiss/html
-chown -R "$USER":"$USER" /var/www/koeusiss/html
-chmod -R 755 /var/www 
-echo "Holberton School" > /etc/nginx/koeusiss/html/index.html
-touch /etc/nginx/sites-available/koeusiss.tech
+mkdir /etc/nginx/html
+touch /etc/nginx/html/index.html
+echo "Holberton School" > /etc/nginx/html/index.html
 printf %s "server {
     listen 80;
     listen [::]:80 default_server;
@@ -16,8 +13,6 @@ printf %s "server {
     location /redirect_me {
         return 301 http://example.com/;
     }
-}" > /etc/nginx/sites-available/koeusiss.tech
-rm /etc/nginx/sites-enabled/default
-ln -s /etc/nginx/sites-available/example.com /etc/nginx/sites-enabled/
+}" > /etc/nginx/sites-available/default
 
 service nginx restart
