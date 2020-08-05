@@ -1,24 +1,20 @@
 #!/usr/bin/env bash
 # Creates an nginx web sever
-sudo apt-get -y update
-sudo apt-get install -y nginx
 
-sudo mkdir -p /var/www/koeusiss/html
+apt-get update
+apt-get install -y nginx
 
-sudo echo "Holberton School" > /var/www/koeusiss/html/index.html
-
-sudo echo "server {
+mkdir /etc/nginx/html
+touch /etc/nginx/html/index.html
+echo "Holberton School" > /etc/nginx/html/index.html
+printf %s "server {
     listen 80;
     listen [::]:80 default_server;
-
-    server_name koeusiss.tech www.kouesiss.tech;
-    rewrite ^/redirect_me$ http://example.com permanent;
-
-    root   /var/www/koeusiss/html;
+    root   /etc/nginx/html;
     index  index.html index.htm;
-}" > /etc/nginx/sites-available/koeusiss.tech
+    location /redirect_me {
+        return 301 http://example.com/;
+    }
+}" > /etc/nginx/sites-available/default
 
-sudo rm -rf /etc/nginx/sites-enabled/*
-sudo ln -s /etc/nginx/sites-available/koeusiss.tech /etc/nginx/sites-enabled/
-
-sudo service nginx restart
+service nginx restart
