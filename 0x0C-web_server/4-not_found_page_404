@@ -1,0 +1,26 @@
+#!/usr/bin/env bash
+# Creates an nginx web sever
+
+apt-get update
+apt-get install -y nginx
+
+mkdir /etc/nginx/html
+touch /etc/nginx/html/index.html
+echo "Holberton School" > /etc/nginx/html/index.html
+echo "Ceci n'est pas une page" > /etc/nginx/html/custom_404.html
+printf %s "server {
+    listen 80;
+    listen [::]:80 default_server;
+    root   /etc/nginx/html;
+    index  index.html index.htm;
+    location /redirect_me {
+        return 301 http://example.com/;
+    }
+    
+    error_page 404 /custom_404.html
+    location = /custom_404.html{
+        internal;
+    }
+}" > /etc/nginx/sites-available/default
+
+service nginx restart
