@@ -1,10 +1,9 @@
 #!/usr/bin/env bash
 # Creates an nginx web sever
-sudo apt-get -y update
+sudo apt-get update
 sudo apt-get -y install nginx
 sudo ufw allow 'Nginx HTTP'
 sudo chown -R "$USER":"$USER" /var/www/html/index.nginx-debian.html
 sudo chmod -R 755 /var/www 
 echo "Holberton School" > /var/www/html/index.nginx-debian.html
-sudo systemctl stop nginx
-sudo systemctl start nginx
+sudo systemctl restart nginx
