@@ -2,7 +2,6 @@
 # Creates an nginx web sever
 apt-get update
 apt-get -y install nginx
-ufw allow 'Nginx HTTP'
 echo "Holberton School" > /var/www/html/index.nginx-debian.html
-sed -i "/server_name _;/ a\\\trewrite ^/redirect_me$ http://www.example.com/ permanent;" /etc/nginx/sites-available/default
+sed -i "/server_name _;/ a\\\trewrite ^/redirect_me http://example.com permanent;" /etc/nginx/sites-available/default
 service nginx restart
