@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Creates an nginx web sever
-apt-get update
+apt-get -y update
 apt-get -y install nginx
 echo "Holberton School" > /var/www/html/index.nginx-debian.html
 sed -i "/server_name _;/ a\\\trewrite ^/redirect_me http://example.com permanent;" /etc/nginx/sites-available/default
-service nginx restart
+service nginx start
