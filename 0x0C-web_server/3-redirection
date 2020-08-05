@@ -1,10 +1,8 @@
 #!/usr/bin/env bash
 # Creates an nginx web sever
-sudo apt-get update
-sudo apt-get -y install nginx
-sudo ufw allow 'Nginx HTTP'
-sudo sed -i "/server_name _;/ a\\\trewrite ^/redirect_me$ http://www.example.com/ permanent;" /etc/nginx/sites-available/default
-sudo chown -R "$USER":"$USER" /var/www/html/index.nginx-debian.html
-sudo chmod -R 755 /var/www 
-sudo echo "Holberton School" > /var/www/html/index.nginx-debian.html
-sudo service nginx restart
+apt-get update
+apt-get -y install nginx
+ufw allow 'Nginx HTTP'
+echo "Holberton School" > /var/www/html/index.nginx-debian.html
+sed -i "/server_name _;/ a\\\trewrite ^/redirect_me$ http://www.example.com/ permanent;" /etc/nginx/sites-available/default
+service nginx restart
