@@ -1,4 +1,9 @@
 #!/usr/bin/env bash
-# Creates a permanent redirection
-sudo sed -i "/server_name _;/ a\\\trewrite ^/redirect_me$ http://www.example.com/ permanent;" /etc/nginx/sites-available/default 
-sudo systemctl restart nginx
+# Creates an nginx web sever
+sudo apt-get update
+sudo apt-get -y install nginx
+sudo ufw allow 'Nginx HTTP'
+sudo chown -R "$USER":"$USER" /etc/nginx/sites-available/default
+sudo chmod -R 755 /etc/nginx/sites-available 
+sudo sed -i "/server_name _;/ a\\\trewrite ^/redirect_me$ http://www.example.com/ permanent;" /etc/nginx/sites-available/default
+sudo service nginx restart
