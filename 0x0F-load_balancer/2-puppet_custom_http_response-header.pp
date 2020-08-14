@@ -1,29 +1,29 @@
 # Install a new brand ubuntu server with custom http header
 exec {'/usr/bin/env apt-get update':}
 package {'install_nginx':
-	ensure => installed,
-	name => nginx,
-	provider => apt,
+    ensure   => installed,
+    name     => nginx,
+    provider => apt,
 }
 file {[
-		'/var/www/koeusiss',
-		'/var/www/koeusiss/html'
-	]: 
-	ensure => 'directory'
+        '/var/www/koeusiss',
+        '/var/www/koeusiss/html'
+    ]:
+    ensure => 'directory'
 }
 file {'/var/www/koeusiss/html/index.html':
-	ensure => 'present',
-	content => 'Holberton School'
+    ensure  => 'present',
+    content => 'Holberton School'
 }
 file {'/var/www/koeusiss/html/custom_404.html':
-	ensure => 'present',
-	content => "Ceci n'est pas une page"
+    ensure  => 'present',
+    content => "Ceci n'est pas une page"
 }
 tidy {'/etc/nginx/sites-available/':
-	recurse => true
+    recurse => true
 }
 tidy {'/etc/nginx/sites-enabled/':
-	recurse => true
+    recurse => true
 }
 $cnt = "server {
 	listen 80;
@@ -38,13 +38,13 @@ $cnt = "server {
 	add_header X-Served-By $hostname;
 }"
 file {'/etc/nginx/sites-available/koeusiss.config':
-	content => $cnt,
+    content => $cnt,
 }
 file {'/etc/nginx/sites-enabled/koeusiss.config':
-	ensure => 'link',
-	target => '/etc/nginx/sites-available/koeusiss.config'
+    ensure => 'link',
+    target => '/etc/nginx/sites-available/koeusiss.config'
 }
 service {'nginx':
-	ensure => 'running'
+    ensure  => 'running'
+    restart => true
 }
-
