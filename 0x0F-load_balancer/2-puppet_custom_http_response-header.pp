@@ -35,7 +35,9 @@ $cnt = "server {
 	server_name koeusiss.tech www.koeusiss.tech;
 	rewrite '^/redirect_me$' http://example.com permanent;
 	error_page 404 /custom_404.html;
-	add_header X-Served-By $hostname;
+	location / {
+		add_header X-Served-By $hostname;
+	}
 }"
 file {'/etc/nginx/sites-available/koeusiss.config':
     content => $cnt,
