@@ -13,18 +13,18 @@ rm -rf /etc/nginx/sites-enabled/*
 
 echo "server {
   listen 80;
-  listen [::]:80 server_default;
+  listen [::]:80 default_server;
 
-  root /var/www/koeusiss/html
+  root /var/www/koeusiss/html;
   index index.html;
 
   server_name koeusiss.tech www.koeusiss.tech;
   rewrite ^/redirect_me$ http://example.com/ permanent;
 
-  error_page 404 /custom_404;
+  error_page 404 /custom_404.html;
 
   location / {
-    proxy-set-header X-Served-By $HOSTNAME;
+    add_header X-Served-By $HOSTNAME;
   }
   
 }" > /etc/nginx/sites-available/koeusiss.config
