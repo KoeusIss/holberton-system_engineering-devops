@@ -1,48 +1,50 @@
 # Install a new brand ubuntu server with custom http header
 exec {'/usr/bin/env apt-get update':}
-exec {'/usr/bin/env apt-get install -y nginx':}
-
-file {'create_folder_for_the_new_site':
-    path    => '/var/www/koeusiss/html',
-    recurse => true,
+package {'install_nginx':
+	ensure => installed,
+	name => nginx,
+	provider => apt,
 }
-file {'create_index_file':
-    ensure  => 'present',
-    path    => '/var/www/koeusiss/html/index.html',
-    content => 'Holberton School'
+file {[
+		'/var/www/koeusiss',
+		'/var/www/koeusiss/html'
+	]: 
+	ensure => 'directory'
 }
-file {'create_custom_404_file':
-    ensure  => 'present',
-    path    => '/var/www/koeusiss/html/custom_404.html',
-    content => "Ceci n'est pas une page"
+file {'/var/www/koeusiss/html/index.html':
+	ensure => 'present',
+	content => 'Holberton School'
 }
-tidy {'clean_default_available_file':
-    path    => 'etc/nginx/sites-available/',
-    recurse => true
+file {'/var/www/koeusiss/html/custom_404.html':
+	ensure => 'present',
+	content => "Ceci n'est pas une page"
 }
-tidy {'clean_default_enabled_file':
-    path    => '/etc/nginx/sites-enabled/',
-    recurse => true
+tidy {'/etc/nginx/sites-available/':
+	recurse => true
+}
+tidy {'/etc/nginx/sites-enabled/':
+	recurse => true
 }
 $cnt = "server {
-    listen 80;
-    listen [::]:80 default_server;
-    root /var/www/koeusiss/html;
-    index index.html;
-    rewrite ^/redirect_me$ http://exapmle.com permanent;
-    error_page 404 /custom_404.html;
-    add_header X-Served-By $HOSTNAME;
+	listen 80;
+	listen [::]:80 default_server;
+
+	root /var/www/koeusiss/html;
+	index index.html;
+	
+	server_name koeusiss.tech www.koeusiss.tech;
+	rewrite '^/redirect_me$' http://example.com permanent;
+	error_page 404 /custom_404.html;
+	add_header X-Served-By $hostname;
 }"
-file {'create_available_site':
-    ensure  => 'present',
-    path    =>'/etc/nginx/sites-available/koeusiss.config',
-    content => $cnt
+file {'/etc/nginx/sites-available/koeusiss.config':
+	content => $cnt,
 }
-file {'enabling_site':
-    ensure  => 'link'
-    path    => '/etc/nginx/sites-enabled/koeusiss.config'
-    target  => '/etc/nginx/sites-available/koeusiss.config'
+file {'/etc/nginx/sites-enabled/koeusiss.config':
+	ensure => 'link',
+	target => '/etc/nginx/sites-available/koeusiss.config'
 }
 service {'nginx':
-    ensure  => 'running'
+	ensure => 'running'
 }
+
