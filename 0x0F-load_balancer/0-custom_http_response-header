@@ -1,0 +1,33 @@
+#!/usr/bin/env bash
+# Reconfigure a web02 and managa a custom header
+
+apt-get update
+apt-get install -y nginx
+
+mkdir -p /var/www/koeusiss/html
+echo "Holberton School" > /var/www/koeusiss/html/index.html
+echo "Ceci n'est pas une page" > /var/www/koeusiss/html/custom_404.html
+
+rm -rf /etc/nginx/sites-available/*
+rm -rf /etc/nginx/sites-enabled/*
+
+echo "server {
+  listen 80;
+  listen [::]:80 server_default;
+
+  root /var/www/koeusiss/html
+  index index.html;
+
+  server_name koeusiss.tech www.koeusiss.tech;
+  rewrite ^/redirect_me$ http://example.com/ permanent;
+
+  error_page 404 /custom_404;
+
+  location / {
+    proxy-set-header X-Served-By $HOSTNAME;
+  }
+  
+}" > /etc/nginx/sites-available/koeusiss.config
+
+ln -s /etc/nginx/sites-available/koeusiss.config /etc/nginx/sites-enabled/
+service nginx restart
