@@ -1,8 +1,9 @@
 # Install a new brand ubuntu server with custom http header
-exec {'/usr/bin/env apt-get update':}
-package {'install_nginx':
+exec {'update_system':
+    command => '/usr/bin/env apt-get update'
+}
+Exec['update_system'] -> package {'nginx':
     ensure   => installed,
-    name     => nginx,
     provider => apt,
 }
 file {[
