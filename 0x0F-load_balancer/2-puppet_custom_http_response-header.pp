@@ -48,6 +48,6 @@ file {'/etc/nginx/sites-enabled/koeusiss.config':
     target => '/etc/nginx/sites-available/koeusiss.config'
 }
 service {'nginx':
-    ensure  => 'running'
+    ensure  => 'running',
     restart => true
 }
