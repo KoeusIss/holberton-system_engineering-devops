@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+# Debugging container
+rm -rf /etc/nginx/sites-enabled/*
+ln -s /etc/nginx/sites-available/default /etc/nginx/sites-enabled/                                  
+service nginx restart
