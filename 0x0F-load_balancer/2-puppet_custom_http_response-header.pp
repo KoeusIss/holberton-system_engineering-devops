@@ -20,12 +20,6 @@ file {'/var/www/koeusiss/html/custom_404.html':
     ensure  => 'present',
     content => "Ceci n'est pas une page"
 }
-tidy {'/etc/nginx/sites-available/':
-    recurse => true
-}
-tidy {'/etc/nginx/sites-enabled/':
-    recurse => true
-}
 $cnt = "server {
 	listen 80;
 	listen [::]:80 default_server;
@@ -40,10 +34,16 @@ $cnt = "server {
 		add_header X-Served-By $hostname;
 	}
 }"
-file {'/etc/nginx/sites-available/koeusiss.config':
+exec {'clean_up_available_site':
+    command => '/usr/bin/env rm -rf /etc/nginx/sites-available/*'
+}
+exec {'clean_up_enabled_site':
+    command => '/usr/bin/env rm -rf /etc/nginx/sites-enabled/*'
+}
+Exec ['clean_up_available_site'] -> file {'/etc/nginx/sites-available/koeusiss.config':
     content => $cnt,
 }
-file {'/etc/nginx/sites-enabled/koeusiss.config':
+Exec ['clean_up_enabled_site'] -> file {'/etc/nginx/sites-enabled/koeusiss.config':
     ensure => 'link',
     target => '/etc/nginx/sites-available/koeusiss.config'
 }
