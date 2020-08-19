@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+# Display information about subdomain
+print_i()
+{
+# shellcheck disable=SC2086
+    RECORD_TYPE=$(dig "$2"."$1" | awk 'BEGIN{OFS=" ";} /^'$2'/{print $4}')
+# shellcheck disable=SC2086
+    DESTINATION=$(dig "$2"."$1" | awk 'BEGIN{OFS=" ";} /^'$2'/{print $5}')
+    echo "The subdomain $2 is a $RECORD_TYPE record and points to $DESTINATION"
+}
+if [ -z "$2" ]
+then
+  subs=( www lb-01 web-01 web-02 )
+  for i in "${subs[@]}"
+  do
+    print_i "$1" "$i"
+  done
+else
+  print_i "$1" "$2"
+fi
