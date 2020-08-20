@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+# runs whoami in the server
+if [ -z "$1" ]
+then
+	w | awk 'BEGIN{OFS=" ";}/^root/{print $1;}'
+else
+	w | awk 'BEGIN{OFS=" ";}/^'$1'/{print $1;}'
+fi
