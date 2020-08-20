@@ -1,9 +1,3 @@
 #!/usr/bin/env bash
 # runs whoami in the server
-if [ -z "$1" ]
-then
-	awk -F'[:]' '/^root/{print $1;}' < /etc/passwd
-else
-# shellcheck disable=SC2086
-	awk -F'[:]' '/^'$1'/{print $1;}' < /etc/passwd
-fi
+sudo -u "$1" whoami
