@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-# Returns the list of TODOS
+"""DataAPI module"""
 import requests
 import sys
 
