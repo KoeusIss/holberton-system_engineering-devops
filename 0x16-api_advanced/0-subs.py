@@ -20,3 +20,5 @@ def number_of_subscribers(subreddit):
     res = req.json()
     return res.get('data').get('subscribers')
 
+if __name__ == '__main__':
+    number_of_subscribers(subreddit)

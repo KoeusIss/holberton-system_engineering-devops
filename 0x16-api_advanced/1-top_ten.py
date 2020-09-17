@@ -20,3 +20,6 @@ def top_ten(subreddit):
     res = req.json().get('data').get('children')
     for children in res:
         print(children.get('data').get('title'))
+
+if __name__ == '__main__':
+    top_ten(subreddit)
