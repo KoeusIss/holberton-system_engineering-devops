@@ -3,10 +3,10 @@
 import requests
 
 
-def number_of_subscribers(subreddit):
-    """Returns the number of suscriber for a given subreddit"""
+def top_ten(subreddit):
+    """Returns the top 10 hotest posts for a given subreddit"""
     base_url = 'https://www.reddit.com'
-    query = 'r/{}/about.json'.format(subreddit)
+    query = 'r/{}/hot.json?limit=10'.format(subreddit)
     headers = {
         "User-Agent": "linux:hbtn.advanced.api (by /u/koeusiss)"
     }
@@ -16,7 +16,7 @@ def number_of_subscribers(subreddit):
         allow_redirects=False
     )
     if req.status_code == 404:
-        return 0
-    res = req.json()
-    return res.get('data').get('subscribers')
-
+        print('None')
+    res = req.json().get('data').get('children')
+    for children in res:
+        print(children.get('data').get('title'))
