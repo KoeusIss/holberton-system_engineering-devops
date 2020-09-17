@@ -12,11 +12,12 @@ def number_of_subscribers(subreddit):
     }
     req = requests.get(
         url='{}/{}'.format(base_url, query),
-        headers=headers
+        headers=headers,
+        allow_redirects=False
     )
-    res = req.json()
-    if res.status_code == 404:
+    if req.status_code == 404:
         return 0
+    res = req.json()
     return res.get('data').get('subscribers')
 
 if __name__ == '__main__':
