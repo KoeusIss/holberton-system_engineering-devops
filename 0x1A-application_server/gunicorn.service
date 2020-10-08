@@ -1,6 +1,5 @@
 [Unit]
 Description=Gunicorn instance for HBNB
-# Gunicorn service needs network
 After=network.target
 
 [Service]
@@ -8,9 +7,9 @@ PermissionsStartOnly=true
 PIDFile=/run/hbnb/hbnb.pid
 User=ubuntu
 Group=ubuntu
+ExecStartPre = /bin/mkdir /run/hbnb
+ExecStartPre = /bin/chown -R ubuntu:ubuntu /run/hbnb
 WorkingDirectory=/home/ubuntu/AirBnB_clone_v4/
-ExecStartPre=/bin/mkdir /run/hbnb
-ExecStartPre=/bin/chown -R ubuntu:ubuntu /run/hbnb
 Environment=HBNB_MYSQL_USER=hbnb_dev
 Environment=HBNB_MYSQL_PWD=hbnb_dev_pwd
 Environment=HBNB_MYSQL_HOST=localhost
@@ -20,7 +19,7 @@ ExecStart=/home/ubuntu/.local/bin/gunicorn --bind 0.0.0.0:5003 web_dynamic.2-hbn
 ExecReload=/bin/kill -s HUP $MAINPID
 ExecStop=/bin/kill -s TERM $MAINPID
 ExecStopPost=/bin/rm -rf /run/hbnb
-PrivateTmp=true
+PrivateTmp=false
 
 [Install]
 # Gunicorn run automatically on startup
